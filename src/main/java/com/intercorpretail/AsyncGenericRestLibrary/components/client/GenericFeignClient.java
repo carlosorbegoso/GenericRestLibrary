@@ -1,12 +1,14 @@
 package com.intercorpretail.AsyncGenericRestLibrary.components.client;
 
+import com.intercorpretail.AsyncGenericRestLibrary.components.executor.config.FeignConfig;
 import feign.*;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Map;
 
-
+@FeignClient(name = "genericFeignClient", url = "${feign.client.config.genericFeignClient.url}", configuration = FeignConfig.class)
 public interface GenericFeignClient {
 
     @RequestLine("GET /{path}")

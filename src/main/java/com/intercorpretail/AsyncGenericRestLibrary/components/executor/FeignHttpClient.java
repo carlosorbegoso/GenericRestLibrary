@@ -28,6 +28,7 @@ public class FeignHttpClient extends AbstractAuthHttpClient {
 
     @Override
     public ResponseEntity<?> execute(HttpMethod method, String path, @Nullable Object body, @Nullable Map<String, String> queryParams, @Nullable HttpHeaders headers) {
+
         if (headers != null && headers.getFirst(HttpHeaders.AUTHORIZATION) != null) {
             String authHeader = headers.getFirst(HttpHeaders.AUTHORIZATION);
             if (authHeader.startsWith("Basic ")) {

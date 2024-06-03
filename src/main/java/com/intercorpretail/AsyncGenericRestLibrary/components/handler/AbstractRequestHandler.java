@@ -15,22 +15,15 @@ public abstract class AbstractRequestHandler {
         this.request = request;
     }
 
-    public ResponseEntity<?> handle(Method method,Object body, HttpHeaders headers, Object... args) {
+    public ResponseEntity<?> handle(Method method, Object body, HttpHeaders headers, Object... args) {
         String path = Util.getPathFromAnnotation(method);
         Class<?>[] parameterTypes = Util.getParameterTypes(args);
 
         Map<String, String> queryParams = null;
 
         if (parameterTypes.length == 1 && Map.class.isAssignableFrom(parameterTypes[0])) {
-           if(args.length == 1){
-               if(args[0] instanceof HttpHeaders){
-                   headers = (HttpHeaders) args[0];
-               }
-           }
-
-            queryParams = (Map<String, String>) args[0];
-        } else if (parameterTypes.length == 1 && HttpHeaders.class.isAssignableFrom(parameterTypes[0])) {
-            headers = (HttpHeaders) args[0];
+            queryParams = extractQueryParams(args);
+            headers = extractHeaders(args);
         } else if (parameterTypes.length == 2 && Map.class.isAssignableFrom(parameterTypes[0]) && HttpHeaders.class.isAssignableFrom(parameterTypes[1])) {
             queryParams = (Map<String, String>) args[0];
             headers = (HttpHeaders) args[1];
@@ -39,6 +32,14 @@ public abstract class AbstractRequestHandler {
         }
 
         return execute(method, path, body, queryParams, headers);
+    }
+
+    private Map<String, String> extractQueryParams(Object... args) {
+        return args.length == 1 ? (Map<String, String>) args[0] : null;
+    }
+
+    private HttpHeaders extractHeaders(Object... args) {
+        return args.length == 1 && args[0] instanceof HttpHeaders ? (HttpHeaders) args[0] : null;
     }
 
     protected abstract ResponseEntity<?> execute(Method method, String path, Object body, Map<String, String> queryParams, HttpHeaders headers);

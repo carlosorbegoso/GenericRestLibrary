@@ -4,6 +4,7 @@ import com.intercorpretail.AsyncGenericRestLibrary.annotations.RestService;
 import com.intercorpretail.AsyncGenericRestLibrary.components.client.GenericFeignClient;
 import com.intercorpretail.AsyncGenericRestLibrary.components.executor.FeignHttpClient;
 import com.intercorpretail.AsyncGenericRestLibrary.components.executor.WebClientHttpClient;
+import com.intercorpretail.AsyncGenericRestLibrary.components.executor.config.HttpClientConfig;
 import com.intercorpretail.AsyncGenericRestLibrary.components.factory.FeignClientFactory;
 import com.intercorpretail.AsyncGenericRestLibrary.components.factory.WebClientFactory;
 import com.intercorpretail.AsyncGenericRestLibrary.components.handler.RequestHandler;
@@ -31,7 +32,7 @@ public class GenericWebClient {
      *
      * @param serviceClass the class of the service to be used
      */
-    public GenericWebClient(Class<?> serviceClass) {
+    public GenericWebClient(Class<?> serviceClass, HttpClientConfig config) {
         RestService restService = serviceClass.getAnnotation(RestService.class);
         String baseUrl = restService != null ? restService.baseUrl() : "";
 
@@ -39,7 +40,7 @@ public class GenericWebClient {
         WebClient webClient = new WebClientFactory().create(baseUrl);
 
         // create instance the Feign client
-        GenericFeignClient feignClient = new FeignClientFactory().create(baseUrl);
+        GenericFeignClient feignClient = new FeignClientFactory().create(baseUrl,config);
 
         // create instance  of the request handler with the appropriate client
         RequestHandler asyncRequestHandler = new RequestHandler(new WebClientHttpClient(webClient, baseUrl));
