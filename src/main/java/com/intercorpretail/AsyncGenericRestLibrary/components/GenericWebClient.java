@@ -20,8 +20,6 @@ import org.springframework.web.reactive.function.client.WebClient;
  * It uses the RequestHandler to handle the request and can be configured to use either Feign or WebClient as the HTTp client.
  */
 public class GenericWebClient {
-    private final RequestHandler asyncRequestHandler;
-    private final RequestHandler syncRequestHandler;
     private final GetInvoker getInvoker;
     private final PostInvoker postInvoker;
     private final PutInvoker putInvoker;
@@ -44,8 +42,8 @@ public class GenericWebClient {
         GenericFeignClient feignClient = new FeignClientFactory().create(baseUrl);
 
         // create instance  of the request handler with the appropriate client
-        this.asyncRequestHandler = new RequestHandler(new WebClientHttpClient(webClient, baseUrl));
-        this.syncRequestHandler = new RequestHandler(new FeignHttpClient(feignClient, baseUrl));
+        RequestHandler asyncRequestHandler = new RequestHandler(new WebClientHttpClient(webClient, baseUrl));
+        RequestHandler syncRequestHandler = new RequestHandler(new FeignHttpClient(feignClient, baseUrl));
 
         this.getInvoker = new GetInvoker(serviceClass, asyncRequestHandler, syncRequestHandler);
         this.postInvoker = new PostInvoker(serviceClass, asyncRequestHandler, syncRequestHandler);

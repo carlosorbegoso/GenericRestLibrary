@@ -38,7 +38,8 @@ public class WebClientHttpClient extends AbstractAuthHttpClient {
         headers = Optional.ofNullable(headers)
                 .orElse(new HttpHeaders());
         if (username != null && password != null) {
-            return executeWithBasicAuth(method, path, body, queryParams, headers, username, password);
+            String  authHeader = "Basic " + Base64.getEncoder().encodeToString((username + ":" + password).getBytes(StandardCharsets.UTF_8));
+            return executeWithBasicAuth(method, path, body, queryParams, headers,authHeader);
         } else if (token != null) {
             return executeWithBearerToken(method, path, body, queryParams, headers, token);
         } else {
@@ -73,11 +74,9 @@ public class WebClientHttpClient extends AbstractAuthHttpClient {
                return executeRequest(method, path, body, queryParams, headers);
     }
 
+
     @Override
-    protected ResponseEntity<?> executeWithBasicAuth(HttpMethod method, String path, Object body, Map<String, String> queryParams, HttpHeaders headers, String username, String password) {
-        String auth = username + ":" + password;
-        byte[] encodedAuth = Base64.getEncoder().encode(auth.getBytes(StandardCharsets.UTF_8));
-        String authHeader = "Basic " + new String(encodedAuth);
+    protected ResponseEntity<?> executeWithBasicAuth(HttpMethod method, String path, Object body, Map<String, String> queryParams, HttpHeaders headers, String authHeader) {
         headers.add("Authorization", authHeader);
         return executeRequest(method, path, body, queryParams, headers);
     }
