@@ -33,18 +33,25 @@ public class GenericWebClient {
      * @param serviceClass the class of the service to be used
      */
     public GenericWebClient(Class<?> serviceClass, HttpClientConfig config) {
+
         RestService restService = serviceClass.getAnnotation(RestService.class);
         String baseUrl = restService != null ? restService.baseUrl() : "";
 
         // create instance the web client
         WebClient webClient = new WebClientFactory().create(baseUrl);
 
+        if(config == null){
+            config = new HttpClientConfig();
+        }
+
         // create instance the Feign client
-        GenericFeignClient feignClient = new FeignClientFactory().create(baseUrl,config);
+        GenericFeignClient feignClient = new FeignClientFactory().create(baseUrl, config);
+
 
         // create instance  of the request handler with the appropriate client
         RequestHandler asyncRequestHandler = new RequestHandler(new WebClientHttpClient(webClient, baseUrl));
-        RequestHandler syncRequestHandler = new RequestHandler(new FeignHttpClient(feignClient, baseUrl));
+        RequestHandler syncRequestHandler = new RequestHandler(new FeignHttpClient(feignClient , baseUrl));
+
 
         this.getInvoker = new GetInvoker(serviceClass, asyncRequestHandler, syncRequestHandler);
         this.postInvoker = new PostInvoker(serviceClass, asyncRequestHandler, syncRequestHandler);

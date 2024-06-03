@@ -7,6 +7,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 
 import java.lang.reflect.Method;
+import java.net.SocketTimeoutException;
+import java.util.concurrent.TimeoutException;
 
 public abstract class Invoker {
     protected final RequestHandler asyncRequestHandler;
@@ -30,7 +32,7 @@ public abstract class Invoker {
         } catch (MethodNotFoundException e) {
             throw new MethodNotFoundException("Method not found: ", e);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), null, null);
+            throw new HttpClientException("An unexpected error occurred: ", e);
         }
     }
 

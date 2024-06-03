@@ -8,7 +8,7 @@ public class HttpClientConfig {
     private Boolean followRedirects;
 
     public HttpClientConfig() {
-        this.timeout = 10000;
+        this.timeout = 5000;
         this.followRedirects = true;
     }
 

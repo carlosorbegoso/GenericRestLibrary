@@ -14,6 +14,13 @@ import org.springframework.http.converter.json.GsonHttpMessageConverter;
 
 
 public class FeignClientFactory {
+    public GenericFeignClient create(String baseUrl) {
+        HttpClientConfig defaultConfig = new HttpClientConfig();
+        // Set default values for the config
+        defaultConfig.setTimeout(5000);
+        defaultConfig.setFollowRedirects(true);
+        return create(baseUrl, defaultConfig);
+    }
     public GenericFeignClient create(String baseUrl, HttpClientConfig config) {
         HttpMessageConverters httpMessageConverters = new HttpMessageConverters(new GsonHttpMessageConverter());
         Decoder decoder = new ResponseEntityDecoder(new SpringDecoder(() -> httpMessageConverters));
