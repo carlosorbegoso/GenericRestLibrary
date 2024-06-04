@@ -7,8 +7,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 
 import java.lang.reflect.Method;
-import java.net.SocketTimeoutException;
-import java.util.concurrent.TimeoutException;
 
 public abstract class Invoker {
     protected final RequestHandler asyncRequestHandler;

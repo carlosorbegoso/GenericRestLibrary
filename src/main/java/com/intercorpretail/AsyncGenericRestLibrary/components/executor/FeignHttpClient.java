@@ -7,7 +7,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class FeignHttpClient extends AbstractAuthHttpClient {
@@ -43,7 +42,7 @@ public class FeignHttpClient extends AbstractAuthHttpClient {
 
     @Override
     public ResponseEntity<?> executeWithBasicAuth(HttpMethod method, String path, Object body, Map<String, String> queryParams, HttpHeaders headers, String authHeader) {
-        headers.add("Authorization", authHeader);
+       // headers.add("Authorization", authHeader);
         return executeWithoutAuth(method, path, body, queryParams, headers);
     }
 

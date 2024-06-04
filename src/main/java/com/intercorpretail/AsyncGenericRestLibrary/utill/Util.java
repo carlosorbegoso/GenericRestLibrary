@@ -1,16 +1,9 @@
 package com.intercorpretail.AsyncGenericRestLibrary.utill;
 
 import com.intercorpretail.AsyncGenericRestLibrary.annotations.RestRequest;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
-import java.util.Map;
 import java.util.stream.Stream;
 
 public abstract class Util {

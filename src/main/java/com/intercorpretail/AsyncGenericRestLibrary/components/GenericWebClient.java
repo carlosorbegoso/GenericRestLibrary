@@ -72,7 +72,6 @@ public class GenericWebClient {
         return getInvoker.invoke(methodName, headers,args);
     }
 
-
     /**
      * Makes a POST request
      *
@@ -85,6 +84,7 @@ public class GenericWebClient {
 
     /**
      * Makes a PUT request
+     * @return of ResponseEntity of Type
      */
     public ResponseEntity<?> put(Object... args) {
         String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
@@ -93,6 +93,7 @@ public class GenericWebClient {
 
     /**
      * Makes a DELETE request
+     * @return of ResponseEntity of Type
      */
     public ResponseEntity<?> delete(Object... args) {
         String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
