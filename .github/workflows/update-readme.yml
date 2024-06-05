@@ -34,7 +34,10 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git checkout -b temp-branch  # Create a new branch
+          git checkout -b temp-branch
           git add versions.md
           git commit -am "Update README with version ${{ steps.get_version.outputs.VERSION }}"
-          git push origin temp-branch  # Push the new branch to the remote repository
+          echo ${{ secrets.GH_PAT }} | git credential approve
+          git push origin temp-branch
+        env:
+          GIT_HTTPS_AUTH: ${{ secrets.GH_PAT }}
