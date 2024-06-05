@@ -34,5 +34,6 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
+          git add versions.md  # Add this line
           git commit -am "Update README with version ${{ steps.get_version.outputs.VERSION }}"
           git push
