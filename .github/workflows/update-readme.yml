@@ -20,7 +20,7 @@ jobs:
         id: get_description
         run: |
           VERSION=${{ steps.get_version.outputs.VERSION }}
-          DESCRIPTION=$(jq -r '.["'$VERSION'"]' version_descriptions.json)
+          DESCRIPTION=$(jq -r ".[\"$VERSION\"]" version_descriptions.json)
           echo ::set-output name=DESCRIPTION::$DESCRIPTION
 
       - name: Update README
