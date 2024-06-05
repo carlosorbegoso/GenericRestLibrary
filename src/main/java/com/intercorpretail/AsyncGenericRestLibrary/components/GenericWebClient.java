@@ -41,7 +41,7 @@ public class GenericWebClient {
         // create instance the web client
         WebClient webClient = new WebClientFactory().create(baseUrl);
 
-        if(config == null){
+        if (config == null) {
             config = new HttpClientConfig();
         }
 
@@ -51,7 +51,7 @@ public class GenericWebClient {
 
         // create instance  of the request handler with the appropriate client
         RequestHandler asyncRequestHandler = new RequestHandler(new WebClientHttpClient(webClient, baseUrl));
-        RequestHandler syncRequestHandler = new RequestHandler(new FeignHttpClient(feignClient , baseUrl));
+        RequestHandler syncRequestHandler = new RequestHandler(new FeignHttpClient(feignClient, baseUrl));
 
 
         this.getInvoker = new GetInvoker(serviceClass, asyncRequestHandler, syncRequestHandler);
@@ -109,34 +109,40 @@ public class GenericWebClient {
 
     /**
      * Makes a PUT request
+     *
      * @return of ResponseEntity of Type
      */
-    public ResponseEntity<?> put(HttpHeaders headers,Object body) {
+    public ResponseEntity<?> put(HttpHeaders headers, Object body) {
         String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
         return putInvoker.invoke(methodName, headers, null, body);
     }
-    public ResponseEntity<?> put(Map<String,String>queryParam,Object body) {
+
+    public ResponseEntity<?> put(Map<String, String> queryParam, Object body) {
         String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
         return putInvoker.invoke(methodName, null, queryParam, body);
     }
-    public ResponseEntity<?> put(HttpHeaders headers,Map<String,String>queryParam,Object body) {
+
+    public ResponseEntity<?> put(HttpHeaders headers, Map<String, String> queryParam, Object body) {
         String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
         return putInvoker.invoke(methodName, headers, queryParam, body);
     }
 
     /**
      * Makes a DELETE request
+     *
      * @return of ResponseEntity of Type
      */
-    public ResponseEntity<?> delete(HttpHeaders headers,Object body) {
+    public ResponseEntity<?> delete(HttpHeaders headers, Object body) {
         String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
         return deleteInvoker.invoke(methodName, headers, null, body);
     }
-    public ResponseEntity<?> delete(Map<String,String>queryParam,Object body) {
+
+    public ResponseEntity<?> delete(Map<String, String> queryParam, Object body) {
         String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
         return deleteInvoker.invoke(methodName, null, queryParam, body);
     }
-    public ResponseEntity<?> delete(HttpHeaders headers,Map<String,String>queryParam,Object body) {
+
+    public ResponseEntity<?> delete(HttpHeaders headers, Map<String, String> queryParam, Object body) {
         String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
         return deleteInvoker.invoke(methodName, headers, queryParam, body);
     }

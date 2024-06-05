@@ -21,6 +21,7 @@ public class FeignClientFactory {
         defaultConfig.setFollowRedirects(true);
         return create(baseUrl, defaultConfig);
     }
+
     public GenericFeignClient create(String baseUrl, HttpClientConfig config) {
         HttpMessageConverters httpMessageConverters = new HttpMessageConverters(new GsonHttpMessageConverter());
         Decoder decoder = new ResponseEntityDecoder(new SpringDecoder(() -> httpMessageConverters));

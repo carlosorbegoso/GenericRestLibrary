@@ -13,8 +13,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class AsyncGenericRestLibraryApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(AsyncGenericRestLibraryApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(AsyncGenericRestLibraryApplication.class, args);
+    }
 
 }

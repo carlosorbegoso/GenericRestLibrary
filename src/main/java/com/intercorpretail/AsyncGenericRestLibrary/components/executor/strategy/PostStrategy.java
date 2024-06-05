@@ -8,11 +8,10 @@ import java.util.Map;
 
 /**
  * This class implements the HttpMethodStrategy interface and provides a strategy  for executing a POST request using a GenericFeignClient
-
  */
-public class PostStrategy implements HttpMethodStrategy{
+public class PostStrategy implements HttpMethodStrategy {
     /*
-    * The GenericFeign client used the execute requests
+     * The GenericFeign client used the execute requests
      */
     private final GenericFeignClient feignClient;
 
@@ -24,11 +23,10 @@ public class PostStrategy implements HttpMethodStrategy{
     }
 
     /**
-     *
-     * @param path The path of the request.
-     * @param body The body of the request
+     * @param path        The path of the request.
+     * @param body        The body of the request
      * @param queryParams The query parameters of the request
-     * @param headers The headers of the request
+     * @param headers     The headers of the request
      * @return The response entity of the request
      */
     @Override

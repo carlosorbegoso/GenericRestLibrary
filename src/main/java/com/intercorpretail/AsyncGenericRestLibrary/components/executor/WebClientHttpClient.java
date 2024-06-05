@@ -20,10 +20,11 @@ public class WebClientHttpClient extends AbstractAuthHttpClient {
     protected final WebClient webClient;
 
     public WebClientHttpClient(WebClient webClient, String url) {
-    super(url);
+        super(url);
         this.webClient = webClient;
 
     }
+
     @Override
     public ResponseEntity<?> execute(HttpMethod method, String path, @Nullable HttpHeaders headers, @Nullable Map<String, String> queryParams, @Nullable Object body) {
         return executeInternal(method, path, body, queryParams, headers, null, null, null);
@@ -36,8 +37,8 @@ public class WebClientHttpClient extends AbstractAuthHttpClient {
         headers = Optional.ofNullable(headers)
                 .orElse(new HttpHeaders());
         if (username != null && password != null) {
-            String  authHeader = "Basic " + Base64.getEncoder().encodeToString((username + ":" + password).getBytes(StandardCharsets.UTF_8));
-            return executeWithBasicAuth(method, path, body, queryParams, headers,authHeader);
+            String authHeader = "Basic " + Base64.getEncoder().encodeToString((username + ":" + password).getBytes(StandardCharsets.UTF_8));
+            return executeWithBasicAuth(method, path, body, queryParams, headers, authHeader);
         } else if (token != null) {
             return executeWithBearerToken(method, path, body, queryParams, headers, token);
         } else {
@@ -47,7 +48,7 @@ public class WebClientHttpClient extends AbstractAuthHttpClient {
 
     private ResponseEntity<?> executeRequest(HttpMethod method, String path, Object body, Map<String, String> queryParams, HttpHeaders headers) {
         RequestBodySpec requestBodySpec = webClient.method(method).uri(uriBuilder -> {
-            UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString(this.url + "/"+ path);
+            UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString(this.url + "/" + path);
             queryParams.forEach(uriComponentsBuilder::queryParam);
             return uriComponentsBuilder.build().toUri();
         });
@@ -69,7 +70,7 @@ public class WebClientHttpClient extends AbstractAuthHttpClient {
 
     @Override
     protected ResponseEntity<?> executeWithoutAuth(HttpMethod method, String path, Object body, Map<String, String> queryParams, HttpHeaders headers) {
-               return executeRequest(method, path, body, queryParams, headers);
+        return executeRequest(method, path, body, queryParams, headers);
     }
 
 

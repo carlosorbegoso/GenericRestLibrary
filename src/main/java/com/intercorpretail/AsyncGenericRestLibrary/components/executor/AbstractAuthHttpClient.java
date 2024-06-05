@@ -15,7 +15,7 @@ public abstract class AbstractAuthHttpClient implements HttpClient {
 
     protected abstract ResponseEntity<?> executeWithoutAuth(HttpMethod method, String path, Object body, Map<String, String> queryParams, HttpHeaders headers);
 
-    protected abstract ResponseEntity<?> executeWithBasicAuth(HttpMethod  method, String path, Object body, Map<String, String> queryParams, HttpHeaders headers, String authHeader);
+    protected abstract ResponseEntity<?> executeWithBasicAuth(HttpMethod method, String path, Object body, Map<String, String> queryParams, HttpHeaders headers, String authHeader);
 
     protected abstract ResponseEntity<?> executeWithBearerToken(HttpMethod method, String path, Object body, Map<String, String> queryParams, HttpHeaders headers, String authHeader);
 }

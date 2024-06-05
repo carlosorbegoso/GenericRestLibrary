@@ -43,7 +43,7 @@ public class FeignHttpClient extends AbstractAuthHttpClient {
 
     @Override
     public ResponseEntity<?> executeWithBasicAuth(HttpMethod method, String path, Object body, Map<String, String> queryParams, HttpHeaders headers, String authHeader) {
-       // headers.add("Authorization", authHeader);
+        // headers.add("Authorization", authHeader);
         return executeWithoutAuth(method, path, body, queryParams, headers);
     }
 

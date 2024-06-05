@@ -11,5 +11,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RestRequest {
     String path();
-    RequestMethod method() default  RequestMethod.GET;
+
+    RequestMethod method() default RequestMethod.GET;
 }
