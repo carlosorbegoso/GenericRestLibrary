@@ -5,6 +5,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 
 
 public class RequestHandler {
@@ -20,20 +21,21 @@ public class RequestHandler {
         this.deleteRequestHandler = new DeleteRequestHandler(request);
     }
 
-    public ResponseEntity<?> get(Method method, HttpHeaders headers, Object... args) {
-        return getRequestHandler.handle(method,null,headers, args);
+    public ResponseEntity<?> get(Method method, HttpHeaders headers, Map<String, String> queryParams) {
+        return getRequestHandler.handle(method, headers, queryParams, null);
     }
 
-    public ResponseEntity<?> post(Method method, Object body,HttpHeaders headers, Object... args) {
-        return postRequestHandler.handle(method,body,headers, args);
+    public ResponseEntity<?> post(Method method, HttpHeaders headers, Map<String, String> queryParams, Object body) {
+
+        return postRequestHandler.handle(method, headers, queryParams, body);
     }
 
-    public ResponseEntity<?> put(Method method, Object body,HttpHeaders headers, Object... args) {
-        return putRequestHandler.handle(method, body,headers, args);
+    public ResponseEntity<?> put(Method method, Object body, HttpHeaders headers, Map<String, String> queryParams) {
+        return putRequestHandler.handle(method, headers, queryParams, body);
     }
 
-    public ResponseEntity<?> delete(Method method, HttpHeaders headers, Object... args) {
-        return deleteRequestHandler.handle(method,null,headers, args);
+    public ResponseEntity<?> delete(Method method, HttpHeaders headers, Map<String, String> queryParams) {
+        return deleteRequestHandler.handle(method, headers, queryParams, null);
     }
 
 

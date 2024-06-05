@@ -5,6 +5,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 
 public class DeleteInvoker extends Invoker {
 
@@ -14,7 +15,7 @@ public class DeleteInvoker extends Invoker {
     }
 
     @Override
-    protected ResponseEntity<?> handleRequest(RequestHandler requestHandler, Method method, HttpHeaders headers, Object... args) {
-        return requestHandler.delete(method, headers, args);
+    protected ResponseEntity<?> handleRequest(RequestHandler requestHandler, Method method, HttpHeaders headers, Map<String, String> queryParams, Object body) {
+        return requestHandler.delete(method, headers, queryParams);
     }
 }

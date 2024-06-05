@@ -7,6 +7,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Map;
 
 public abstract class Invoker {
     protected final RequestHandler asyncRequestHandler;
@@ -19,12 +21,16 @@ public abstract class Invoker {
         this.syncRequestHandler = syncRequestHandler;
     }
 
-    public ResponseEntity<?> invoke(String methodName, HttpHeaders headers, Object... args) {
+    public ResponseEntity<?> invoke(String methodName, HttpHeaders headers, Map<String, String> queryParams, Object body) {
         try {
-            Method method = serviceClass.getMethod(methodName);
             boolean isAsync = methodName.endsWith("Async");
+            Method method = Arrays.stream(serviceClass.getMethods())
+                    .filter(m -> m.getName().equals(methodName))
+                    .findFirst()
+                    .orElseThrow(MethodNotFoundException::new);
+
             RequestHandler requestHandler = isAsync ? asyncRequestHandler : syncRequestHandler;
-            return handleRequest(requestHandler, method,headers, args);
+            return handleRequest(requestHandler, method, headers, queryParams, body);
         } catch (HttpClientException e) {
             throw new HttpClientException("An HttpClientException occurred: ", e);
         } catch (MethodNotFoundException e) {
@@ -34,5 +40,5 @@ public abstract class Invoker {
         }
     }
 
-    protected abstract ResponseEntity<?> handleRequest(RequestHandler requestHandler, Method method,HttpHeaders headers, Object... args);
+    protected abstract ResponseEntity<?> handleRequest(RequestHandler requestHandler, Method method, HttpHeaders headers, Map<String, String> queryParams, Object body);
 }

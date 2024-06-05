@@ -16,6 +16,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.Map;
+
 /**
  * This class represents a generic web client that can be used to make HTTP requests.
  * It uses the RequestHandler to handle the request and can be configured to use either Feign or WebClient as the HTTp client.
@@ -33,7 +35,6 @@ public class GenericWebClient {
      * @param serviceClass the class of the service to be used
      */
     public GenericWebClient(Class<?> serviceClass, HttpClientConfig config) {
-
         RestService restService = serviceClass.getAnnotation(RestService.class);
         String baseUrl = restService != null ? restService.baseUrl() : "";
 
@@ -59,17 +60,25 @@ public class GenericWebClient {
         this.deleteInvoker = new DeleteInvoker(serviceClass, asyncRequestHandler, syncRequestHandler);
     }
 
-    /**
-     * Makes a GET request
-     * @return of ResponseEntity of Type
-     * */
-    public ResponseEntity<?> get(Object... args) {
+
+    public ResponseEntity<?> get(HttpHeaders headers, Map<String, String> queryParams) {
         String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
-        return getInvoker.invoke(methodName,null, args);
+        return getInvoker.invoke(methodName, headers, queryParams, null);
     }
-    public ResponseEntity<?> get(HttpHeaders headers,Object... args) {
+
+    public ResponseEntity<?> get(HttpHeaders headers) {
         String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
-        return getInvoker.invoke(methodName, headers,args);
+        return getInvoker.invoke(methodName, headers, null, null);
+    }
+
+    public ResponseEntity<?> get(Map<String, String> queryParams) {
+        String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
+        return getInvoker.invoke(methodName, null, queryParams, null);
+    }
+
+    public ResponseEntity<?> get() {
+        String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
+        return getInvoker.invoke(methodName, null, null, null);
     }
 
     /**
@@ -77,28 +86,59 @@ public class GenericWebClient {
      *
      * @return of ResponseEntity of Type
      */
-    public ResponseEntity<?> post(Object... args) {
+    public ResponseEntity<?> post(HttpHeaders headers, Map<String, String> queryParams, Object body) {
         String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
-        return postInvoker.invoke(methodName,null, args);
+        return postInvoker.invoke(methodName, headers, queryParams, body);
+    }
+
+    public ResponseEntity<?> post(Map<String, String> queryParams, Object body) {
+        String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
+        return postInvoker.invoke(methodName, null, queryParams, body);
+    }
+
+    public ResponseEntity<?> post(HttpHeaders headers, Object body) {
+        String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
+        return postInvoker.invoke(methodName, headers, null, body);
+    }
+
+    public ResponseEntity<?> post(Object body) {
+        String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
+        System.out.println(postInvoker.invoke(methodName, null, null, body));
+        return postInvoker.invoke(methodName, null, null, body);
     }
 
     /**
      * Makes a PUT request
      * @return of ResponseEntity of Type
      */
-    public ResponseEntity<?> put(Object... args) {
+    public ResponseEntity<?> put(HttpHeaders headers,Object body) {
         String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
-        return putInvoker.invoke(methodName,null, args);
+        return putInvoker.invoke(methodName, headers, null, body);
+    }
+    public ResponseEntity<?> put(Map<String,String>queryParam,Object body) {
+        String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
+        return putInvoker.invoke(methodName, null, queryParam, body);
+    }
+    public ResponseEntity<?> put(HttpHeaders headers,Map<String,String>queryParam,Object body) {
+        String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
+        return putInvoker.invoke(methodName, headers, queryParam, body);
     }
 
     /**
      * Makes a DELETE request
      * @return of ResponseEntity of Type
      */
-    public ResponseEntity<?> delete(Object... args) {
+    public ResponseEntity<?> delete(HttpHeaders headers,Object body) {
         String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
-        return deleteInvoker.invoke(methodName,null, args);
+        return deleteInvoker.invoke(methodName, headers, null, body);
     }
-
+    public ResponseEntity<?> delete(Map<String,String>queryParam,Object body) {
+        String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
+        return deleteInvoker.invoke(methodName, null, queryParam, body);
+    }
+    public ResponseEntity<?> delete(HttpHeaders headers,Map<String,String>queryParam,Object body) {
+        String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
+        return deleteInvoker.invoke(methodName, headers, queryParam, body);
+    }
 
 }

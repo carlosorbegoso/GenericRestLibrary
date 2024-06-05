@@ -15,7 +15,7 @@ public class GetRequestHandler extends AbstractRequestHandler {
     }
 
     @Override
-    protected ResponseEntity<?> execute(Method method, String path, Object body, Map<String, String> queryParams, HttpHeaders headers) {
-        return request.execute(HttpMethod.GET, path, body, queryParams, headers);
+    protected ResponseEntity<?> execute(Method method, String path, Map<String, String> queryParams, HttpHeaders headers, Object bod) {
+        return request.execute(HttpMethod.GET, path, headers, queryParams, null);
     }
 }

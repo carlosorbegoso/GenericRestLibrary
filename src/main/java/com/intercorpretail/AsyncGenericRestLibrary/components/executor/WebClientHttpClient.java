@@ -5,6 +5,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClient.RequestBodySpec;
+import org.springframework.web.reactive.function.client.WebClient.RequestHeadersSpec;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
 
@@ -14,9 +16,6 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 
-import org.springframework.web.reactive.function.client.WebClient.RequestBodySpec;
-import org.springframework.web.reactive.function.client.WebClient.RequestHeadersSpec;
-
 public class WebClientHttpClient extends AbstractAuthHttpClient {
     protected final WebClient webClient;
 
@@ -25,9 +24,8 @@ public class WebClientHttpClient extends AbstractAuthHttpClient {
         this.webClient = webClient;
 
     }
-
     @Override
-    public ResponseEntity<?> execute(HttpMethod method, String path, @Nullable Object body, @Nullable Map<String, String> queryParams, @Nullable HttpHeaders headers) {
+    public ResponseEntity<?> execute(HttpMethod method, String path, @Nullable HttpHeaders headers, @Nullable Map<String, String> queryParams, @Nullable Object body) {
         return executeInternal(method, path, body, queryParams, headers, null, null, null);
     }
 
@@ -86,4 +84,6 @@ public class WebClientHttpClient extends AbstractAuthHttpClient {
         headers.add("Authorization", "Bearer " + token);
         return executeRequest(method, path, body, queryParams, headers);
     }
+
+
 }

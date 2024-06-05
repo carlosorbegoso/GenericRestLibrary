@@ -15,9 +15,9 @@ public abstract class AbstractRequestHandler {
         this.request = request;
     }
 
-    public ResponseEntity<?> handle(Method method, Object body, HttpHeaders headers, Object... args) {
+    public ResponseEntity<?> handle(Method method, HttpHeaders headers, Map<String, String> queryParams, Object body) {
         String path = Util.getPathFromAnnotation(method);
-        Class<?>[] parameterTypes = Util.getParameterTypes(args);
+        /*Class<?>[] parameterTypes = Util.getParameterTypes(args);
 
         Map<String, String> queryParams = null;
 
@@ -29,9 +29,9 @@ public abstract class AbstractRequestHandler {
             headers = (HttpHeaders) args[1];
         } else if (parameterTypes.length > 0) {
             throw new IllegalArgumentException("Invalid parameter types for method: " + method.getName());
-        }
+        }*/
 
-        return execute(method, path, body, queryParams, headers);
+        return execute(method, path, queryParams, headers, body);
     }
 
     private Map<String, String> extractQueryParams(Object... args) {
@@ -42,5 +42,5 @@ public abstract class AbstractRequestHandler {
         return args.length == 1 && args[0] instanceof HttpHeaders ? (HttpHeaders) args[0] : null;
     }
 
-    protected abstract ResponseEntity<?> execute(Method method, String path, Object body, Map<String, String> queryParams, HttpHeaders headers);
+    protected abstract ResponseEntity<?> execute(Method method, String path, Map<String, String> queryParams, HttpHeaders headers, Object body);
 }

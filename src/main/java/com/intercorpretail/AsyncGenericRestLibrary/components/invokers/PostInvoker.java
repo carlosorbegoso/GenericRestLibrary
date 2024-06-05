@@ -6,6 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 
 public class PostInvoker extends Invoker {
 
@@ -15,7 +16,7 @@ public class PostInvoker extends Invoker {
     }
 
     @Override
-    protected ResponseEntity<?> handleRequest(RequestHandler requestHandler, Method method, HttpHeaders headers, Object... args) {
-        return requestHandler.post(method,null,headers, args);
+    protected ResponseEntity<?> handleRequest(RequestHandler requestHandler, Method method, HttpHeaders headers, Map<String, String> queryParams, Object body) {
+        return requestHandler.post(method, headers, queryParams, body);
     }
 }

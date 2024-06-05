@@ -5,6 +5,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 
 public class PutInvoker extends Invoker {
 
@@ -14,7 +15,7 @@ public class PutInvoker extends Invoker {
     }
 
     @Override
-    protected ResponseEntity<?> handleRequest(RequestHandler requestHandler, Method method, HttpHeaders headers, Object... args) {
-        return requestHandler.put(method,null,headers,args);
+    protected ResponseEntity<?> handleRequest(RequestHandler requestHandler, Method method, HttpHeaders headers, Map<String, String> queryMap, Object body) {
+        return requestHandler.put(method, body, headers, queryMap);
     }
 }

@@ -7,5 +7,5 @@ import org.springframework.http.ResponseEntity;
 import java.util.Map;
 
 public interface HttpClient {
-    ResponseEntity<?> execute(HttpMethod method, String path, Object o, Map<String, String> queryParams, HttpHeaders headers);
+    ResponseEntity<?> execute(HttpMethod method, String path, HttpHeaders headers, Map<String, String> queryParams, Object body);
 }

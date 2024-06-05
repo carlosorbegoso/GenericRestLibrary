@@ -7,7 +7,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FeignHttpClient extends AbstractAuthHttpClient {
     protected final GenericFeignClient feignClient;
@@ -26,7 +27,7 @@ public class FeignHttpClient extends AbstractAuthHttpClient {
 
 
     @Override
-    public ResponseEntity<?> execute(HttpMethod method, String path, @Nullable Object body, @Nullable Map<String, String> queryParams, @Nullable HttpHeaders headers) {
+    public ResponseEntity<?> execute(HttpMethod method, String path, @Nullable HttpHeaders headers, @Nullable Map<String, String> queryParams, @Nullable Object body) {
 
         if (headers != null && headers.getFirst(HttpHeaders.AUTHORIZATION) != null) {
             String authHeader = headers.getFirst(HttpHeaders.AUTHORIZATION);
