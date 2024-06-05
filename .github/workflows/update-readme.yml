@@ -37,4 +37,7 @@ jobs:
           git checkout -b temp-branch
           git add versions.md
           git commit -am "Update README with version ${{ steps.get_version.outputs.VERSION }}"
-          git -c http.extraheader="AUTHORIZATION: bearer ${{ secrets.GH_PAT }}" push origin temp-branch
+          echo ${{ secrets.GH_PAT }} | git credential approve
+          git push origin temp-branch
+        env:
+          GIT_HTTPS_AUTH: ${{ secrets.GH_PAT }}
