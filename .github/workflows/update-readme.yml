@@ -1,0 +1,38 @@
+name: Update README
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
+
+      - name: Get the version description
+        id: get_description
+        run: |
+          VERSION=${{ steps.get_version.outputs.VERSION }}
+          DESCRIPTION=$(jq -r ".$VERSION" version_descriptions.json)
+          echo ::set-output name=DESCRIPTION::$DESCRIPTION
+
+      - name: Update README
+        run: |
+          VERSION=${{ steps.get_version.outputs.VERSION }}
+          DESCRIPTION=${{ steps.get_description.outputs.DESCRIPTION }}
+          echo "| $VERSION | $DESCRIPTION |" >> versions.md
+          sed -i '/## Versions/r versions.md' README.md
+
+      - name: Commit and push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -am "Update README with version ${{ steps.get_version.outputs.VERSION }}"
+          git push
